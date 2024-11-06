@@ -38,10 +38,7 @@ export default function Products({ cart, setCart }) {
           >
             <div className="w-full flex justify-between">
               <div className="font-bold capitalize"> {item.category}</div>
-              <div
-                className="border p-3 bg-yellow-500"
-                onClick={() => setCart(cart + 1)}
-              >
+              <div className="border p-3" onClick={() => setCart(cart + 1)}>
                 <GiShoppingCart />
               </div>
             </div>
