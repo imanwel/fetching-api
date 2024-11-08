@@ -28,8 +28,21 @@ export default function Products({ cart, setCart }) {
     }
   }
 
+  const [filteredProducts, setFilteredProducts] = useState("");
+
   return (
     <>
+      <div className="search flex justify-center items-center gap-2">
+        <h2 className="font-bold">Search:</h2>
+        <input
+          type="search"
+          name=""
+          id=""
+          className="w-[70%] border border-black rounded-[30px] my-2 outline-none p-1 px-3"
+          placeholder="What are you looking for?"
+        />
+      </div>
+
       <div className="w-full h-full grid grid-cols-3 gap-4 overflow-y-scroll p-4">
         {products.map((item, index) => (
           <div
@@ -38,7 +51,10 @@ export default function Products({ cart, setCart }) {
           >
             <div className="w-full flex justify-between">
               <div className="font-bold capitalize"> {item.category}</div>
-              <div className="border p-3" onClick={() => setCart(cart + 1)}>
+              <div
+                className="border p-3 bg-yellow-500 cursor-pointer"
+                onClick={() => setCart(cart + 1)}
+              >
                 <GiShoppingCart />
               </div>
             </div>

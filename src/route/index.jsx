@@ -3,6 +3,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "../modules/home";
 import Products from "../components/store";
 import About from "../modules/about";
+import Auth from "../modules/auth";
+import Register from "../modules/register";
+import Login from "../modules/login";
 
 export default function Router() {
   const [cart, setCart] = useState(0);
@@ -13,7 +16,7 @@ export default function Router() {
       children: [
         {
           index: true,
-          element: <h1>store</h1>,
+          element: <h1>Home</h1>,
         },
         {
           path: "about",
@@ -22,6 +25,21 @@ export default function Router() {
         {
           path: "products",
           element: <Products cart={cart} setCart={setCart} />,
+        },
+      ],
+    },
+
+    {
+      path: "/auth",
+      element: <Auth />,
+      children: [
+        {
+          index: true,
+          element: <Register />,
+        },
+        {
+          path: "login",
+          element: <Login />,
         },
       ],
     },
