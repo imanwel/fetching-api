@@ -1,20 +1,34 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { GiShoppingCart } from "react-icons/gi";
+import CustomSelect from "../select";
 
 export default function Products({ cart, setCart }) {
   const [products, setProducts] = useState([]);
   const [expandedIndex, setExpandedIndex] = useState(null);
+  const [category, setCategory] = useState("");
 
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
+  const handleChange = (value) => {
+    setCategory(value);
+    console.log(value);
+  };
+
+  const getData = useCallback(() => {
+    let url = `https://fakestoreapi.com/products`;
+
+    if (category !== "") {
+      url += `/category/${category}`;
+    }
+    fetch(url)
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
-
-        console.log(data);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [category]);
+
+  useEffect(() => {
+    getData();
+  }, [category]);
 
   function showMore(index) {
     setExpandedIndex(expandedIndex === index ? null : index);
@@ -28,19 +42,20 @@ export default function Products({ cart, setCart }) {
     }
   }
 
-  const [filteredProducts, setFilteredProducts] = useState("");
-
   return (
     <>
       <div className="search flex justify-center items-center gap-2">
         <h2 className="font-bold">Search:</h2>
-        <input
+        {/* <input
           type="search"
           name=""
           id=""
           className="w-[70%] border border-black rounded-[30px] my-2 outline-none p-1 px-3"
           placeholder="What are you looking for?"
-        />
+          onChange={handleInput}
+        /> */}
+        {/* <button onClick={search}>Search </button> */}
+        <CustomSelect handleChange={handleChange} />
       </div>
 
       <div className="w-full h-full grid grid-cols-3 gap-4 overflow-y-scroll p-4">
