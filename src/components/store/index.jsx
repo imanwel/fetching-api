@@ -40,6 +40,9 @@ export default function Products({ cart, setCart }) {
           id=""
           className="w-[70%] border border-black rounded-[30px] my-2 outline-none p-1 px-3"
           placeholder="What are you looking for?"
+          onChange={(e) => {
+            console.log(e.target.value);
+          }}
         />
       </div>
 
