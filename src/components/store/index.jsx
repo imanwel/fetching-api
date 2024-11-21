@@ -2,12 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 import { GiShoppingCart } from "react-icons/gi";
 import axios from "axios";
 import CustomSelect from "../select";
+// import { update } from "lodash";
 
 export default function Products({ cart, setCart }) {
   const [products, setProducts] = useState([]);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(false); // Loading state
+  const [date, setDate] = useState("");
 
   const handleChange = (value) => {
     setCategory(value);
@@ -44,6 +46,31 @@ export default function Products({ cart, setCart }) {
     return expandedIndex === index ? value : value.substring(0, 20) + "....";
   }
 
+  async function handleDelet(id) {
+    console.log(id);
+
+    const response = await axios.delete(`https://fakestoreapi.com/carts/${id}`);
+    if (response.status === 200) {
+      console.log(response);
+    }
+  }
+  async function updateItem(id) {
+    console.log(id);
+    const body = {
+      userId: Number(id),
+      date,
+      products: [{ productId: 1, quantity: 3 }],
+    };
+    console.log(body);
+    const response = await axios.put(
+      `https://fakestoreapi.com/carts/${id}`,
+      body
+    );
+    if (response.status === 200) {
+      console.log(response);
+    }
+  }
+
   return (
     <>
       <div className="search flex justify-center items-center gap-2">
@@ -66,7 +93,10 @@ export default function Products({ cart, setCart }) {
                 <div className="font-bold capitalize">{item.category}</div>
                 <div
                   className="border p-3 bg-yellow-500 cursor-pointer"
-                  onClick={() => setCart(cart + 1)}
+                  onClick={() => {
+                    setCart(cart + 1);
+                    console.log(item);
+                  }}
                 >
                   <GiShoppingCart />
                 </div>
@@ -85,6 +115,24 @@ export default function Products({ cart, setCart }) {
               <button onClick={() => showMore(index)} className="border p-3">
                 {expandedIndex === index ? "show less" : "read more"}
               </button>
+              <button onClick={() => handleDelet(item.id)}>
+                {" "}
+                delete product
+              </button>
+              <button
+                onClick={() => {
+                  updateItem(item.id);
+                }}
+              >
+                update
+              </button>
+              <input
+                value={date}
+                type="date"
+                onChange={(e) => {
+                  setDate(e.target.value);
+                }}
+              />
             </div>
           ))}
         </div>
